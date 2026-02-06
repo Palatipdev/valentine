@@ -29,6 +29,7 @@
         max-width: 90%;
         position: relative;
         z-index: 10;
+        margin: 0 25px;
       }
       #michelin {
         max-width: 180px;
@@ -63,10 +64,10 @@
   <body>
     <div class="main-border">
       <img id="michelin" src="assets/michelin-removebg-preview.png" />
-      <h1>Will you be my Valentine?</h1>
+      <h1>Will you be my Valentine❤️?</h1>
       <div class="buttons">
-        <button id="yes-button">Yes</button>
-        <button id="no-button">No</button>
+        <button id="yes-button">YES</button>
+        <button id="no-button">NO</button>
       </div>
     </div>
   </body>
@@ -81,16 +82,11 @@
   let yesPos = 0;
 
   noBtn.addEventListener("click", () => {
-    yesScale += 0.05;
+    yesScale += 0.1;
     noScale -= 0.2;
     yesPos += 5;
     yesBtn.style.transform = `scale(${yesScale}) translateX(${yesPos}px)`;
     noBtn.style.transform = `scale(${noScale})`;
-
-    if (noScale <= 0) {
-      noBtn.style.display = "none";
-      yesBtn.style.transform = `scale(${yesScale})`;
-    }
   });
 
   yesBtn.addEventListener("click", () => {
@@ -112,17 +108,43 @@
     document.querySelector(".main-border").appendChild(yayImg);
     document.querySelector(".main-border").appendChild(myH1);
 
-    const stickerCount = 16;
-    const cols = 4;
-    const rows = 4;
+    // Fixed sticker positions - symmetric layout
+    const stickerPositions = [
+      // Top left corner
+      { x: 5, y: 2 },
+      { x: 12, y: 10 },
+      { x: 18, y: 2 },
 
-    const cellWidth = window.innerWidth / cols;
-    const cellHeight = window.innerHeight / rows;
+      // Top right corner
+      { x: 82, y: 2 },
+      { x: 88, y: 5 },
+      { x: 95, y: 2 },
 
-    let stickersPlaced = 0;
+      // Left side - top to bottom
+      { x: 2, y: 15 },
+      { x: 2, y: 25 },
+      { x: 2, y: 35 },
+      { x: 2, y: 45 },
+      { x: 2, y: 55 },
+      { x: 2, y: 65 },
 
-    for (let i = 0; i < stickerCount && stickersPlaced < 20; i++) {
-      // Add safety limit
+      // Right side - top to bottom
+      { x: 65, y: 15 },
+      { x: 55, y: 25 },
+      { x: 55, y: 35 },
+      { x: 55, y: 45 },
+      { x: 55, y: 55 },
+      { x: 55, y: 65 },
+
+      // Extra scattered ones (not too close to edges)
+      { x: 25, y: 10 },
+      { x: 75, y: 10 },
+
+      { x: 15, y: 60 },
+      { x: 40, y: 60 },
+    ];
+
+    stickerPositions.forEach((pos, index) => {
       const sticker = document.createElement("img");
 
       sticker.src = "assets/michelinLuv-removebg-preview.png";
@@ -130,30 +152,17 @@
       sticker.style.width = "100px";
       sticker.style.zIndex = "1";
 
-      const col = i % cols;
-      const row = Math.floor(i / cols);
+      // Convert percentage to pixels
+      sticker.style.left = (pos.x / 100) * window.innerWidth + "px";
+      sticker.style.top = (pos.y / 100) * window.innerHeight + "px";
 
-      const randomX = col * cellWidth + Math.random() * cellWidth;
-      const randomY = row * cellHeight + Math.random() * cellHeight;
-
-      // Skip center area
-      if (
-        randomX > window.innerWidth * 0.3 &&
-        randomX < window.innerWidth * 0.7 &&
-        randomY > window.innerHeight * 0.25 &&
-        randomY < window.innerHeight * 0.75
-      ) {
-        continue;
-      }
-
-      const randomRotation = Math.random() * 90 - 45; // Range: -45 to 45
-      sticker.style.transform = `rotate(${randomRotation}deg)`;
-      sticker.style.left = randomX + "px";
-      sticker.style.top = randomY + "px";
+      // Fixed rotations that alternate
+      const rotations = [-30, -15, 15, 30];
+      const rotation = rotations[index % 4];
+      sticker.style.transform = `rotate(${rotation}deg)`;
 
       document.body.appendChild(sticker);
-      stickersPlaced++;
-    }
+    });
     confetti({
       particleCount: 300,
       angle: 60,
