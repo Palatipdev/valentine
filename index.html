@@ -19,6 +19,7 @@
         align-items: center;
         min-height: 100vh;
         margin: 0;
+        overflow: hidden;
       }
       .main-border {
         border: 3px solid black;
@@ -110,38 +111,35 @@
 
     // Fixed sticker positions - symmetric layout
     const stickerPositions = [
-      // Top left corner
-      { x: 5, y: 2 },
-      { x: 12, y: 10 },
-      { x: 18, y: 2 },
+      // Top area - spread across
+      { x: 8, y: 8 },
+      { x: 15, y: 5 },
+      { x: 25, y: 8 },
+      { x: 75, y: 8 },
+      { x: 85, y: 5 },
+      { x: 92, y: 8 },
 
-      // Top right corner
-      { x: 82, y: 2 },
-      { x: 88, y: 5 },
-      { x: 95, y: 2 },
+      // Left side (stay away from very edge)
+      { x: 5, y: 20 },
+      { x: 5, y: 30 },
+      { x: 5, y: 40 },
+      { x: 8, y: 50 },
+      { x: 5, y: 60 },
+      { x: 5, y: 70 },
 
-      // Left side - top to bottom
-      { x: 2, y: 15 },
-      { x: 2, y: 25 },
-      { x: 2, y: 35 },
-      { x: 2, y: 45 },
-      { x: 2, y: 55 },
-      { x: 2, y: 65 },
+      // Right side (stay away from very edge)
+      { x: 90, y: 20 },
+      { x: 90, y: 30 },
+      { x: 90, y: 40 },
+      { x: 87, y: 50 },
+      { x: 90, y: 60 },
+      { x: 90, y: 70 },
 
-      // Right side - top to bottom
-      { x: 65, y: 15 },
-      { x: 55, y: 25 },
-      { x: 55, y: 35 },
-      { x: 55, y: 45 },
-      { x: 55, y: 55 },
-      { x: 55, y: 65 },
-
-      // Extra scattered ones (not too close to edges)
-      { x: 25, y: 10 },
-      { x: 75, y: 10 },
-
-      { x: 15, y: 60 },
-      { x: 40, y: 60 },
+      // Bottom area (higher up to avoid Safari UI)
+      { x: 8, y: 85 },
+      { x: 20, y: 88 },
+      { x: 80, y: 88 },
+      { x: 92, y: 85 },
     ];
 
     stickerPositions.forEach((pos, index) => {
