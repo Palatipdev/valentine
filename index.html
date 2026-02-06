@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>Valentine</title>
+    <style>
+      body {
+        background-color: #fda4ba;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .main-border {
+        border: 3px solid black;
+        padding: 2rem 1.5rem;
+        background-color: white;
+        border-radius: 30px;
+        text-align: center;
+        max-width: 90%;
+      }
+      #michelin {
+        max-width: 180px;
+      }
+      * {
+        font-family: "Comic Neue", cursive;
+      }
+
+      #yes-button {
+        border-radius: 30px;
+        background-color: white;
+        font-size: 25px;
+        padding: 15px 30px;
+      }
+      #no-button {
+        border-radius: 30px;
+        background-color: white;
+        font-size: 25px;
+        padding: 15px 30px;
+      }
+      .buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-border">
+      <img id="michelin" src="assets/michelin-removebg-preview.png" />
+      <h1>Will you be my Valentine?</h1>
+      <div class="buttons">
+        <button id="yes-button">Yes</button>
+        <button id="no-button">No</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const yesBtn = document.getElementById("yes-button");
+  const noBtn = document.getElementById("no-button");
+
+  let yesScale = 1;
+  let noScale = 1;
+  let yesPos = 0;
+
+  noBtn.addEventListener("click", () => {
+    yesScale += 0.05;
+    noScale -= 0.2;
+    yesPos += 5;
+    yesBtn.style.transform = `scale(${yesScale}) translateX(${yesPos}px)`;
+    noBtn.style.transform = `scale(${noScale})`;
+
+    if (noScale <= 0) {
+      noBtn.style.display = "none";
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+  });
+
+  yesBtn.addEventListener("click", () => {
+    document.querySelector("h1").style.display = "none";
+    document.getElementById("michelin").style.display = "none";
+    document.querySelector(".buttons").style.display = "none";
+
+    const yayImg = document.createElement("img");
+    const myH1 = document.createElement("h1");
+
+    yayImg.src = "assets/yay__1_-removebg-preview.png";
+    yayImg.style.maxWidth = "250px";
+
+    myH1.textContent = "🎉 YAYY 🎉";
+
+    document.querySelector(".main-border").appendChild(yayImg);
+    document.querySelector(".main-border").appendChild(myH1);
+
+    const stickerCount = 16;
+    const cols = 4;
+    const rows = 4;
+
+    const cellWidth = window.innerWidth / cols;
+    const cellHeight = window.innerHeight / rows;
+
+    let stickersPlaced = 0;
+
+    for (let i = 0; i < stickerCount && stickersPlaced < 20; i++) {
+      // Add safety limit
+      const sticker = document.createElement("img");
+
+      sticker.src = "assets/michelinLuv-removebg-preview.png";
+      sticker.style.position = "absolute";
+      sticker.style.width = "80px";
+
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+
+      const randomX = col * cellWidth + Math.random() * cellWidth;
+      const randomY = row * cellHeight + Math.random() * cellHeight;
+
+      // Skip center area
+      if (
+        randomX > window.innerWidth * 0.25 &&
+        randomX < window.innerWidth * 0.75 &&
+        randomY > window.innerHeight * 0.2 &&
+        randomY < window.innerHeight * 0.8
+      ) {
+        continue; // Don't use i--, just skip
+      }
+
+      const randomRotation = Math.random() * 90 - 45; // Range: -45 to 45
+      sticker.style.transform = `rotate(${randomRotation}deg)`;
+      sticker.style.left = randomX + "px";
+      sticker.style.top = randomY + "px";
+
+      document.body.appendChild(sticker);
+      stickersPlaced++;
+    }
+    confetti({
+      particleCount: 300,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 1 }, // Bottom left
+      colors: ["#fda4ba", "#ff69b4", "#ff1493", "#ffffff", "#ffb6c1"],
+    });
+    confetti({
+      particleCount: 300,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 1 }, // Bottom right
+      colors: ["#fda4ba", "#ff69b4", "#ff1493", "#ffffff", "#ffb6c1"],
+    });
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 1 }, // Bottom of screen
+      colors: ["#fda4ba", "#ff69b4", "#ff1493", "#ffffff"], // Pink theme!
+    });
+  });
+</script>
