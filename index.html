@@ -27,6 +27,8 @@
         border-radius: 30px;
         text-align: center;
         max-width: 90%;
+        position: relative;
+        z-index: 10;
       }
       #michelin {
         max-width: 180px;
@@ -40,12 +42,16 @@
         background-color: white;
         font-size: 25px;
         padding: 15px 30px;
+        border: 2px solid black;
+        color: black;
       }
       #no-button {
         border-radius: 30px;
         background-color: white;
         font-size: 25px;
         padding: 15px 30px;
+        border: 2px solid black;
+        color: black;
       }
       .buttons {
         display: flex;
@@ -92,14 +98,17 @@
     document.getElementById("michelin").style.display = "none";
     document.querySelector(".buttons").style.display = "none";
 
+    document.querySelector(".main-border").style.padding = "3rem 2rem";
+
     const yayImg = document.createElement("img");
     const myH1 = document.createElement("h1");
 
     yayImg.src = "assets/yay__1_-removebg-preview.png";
-    yayImg.style.maxWidth = "250px";
+    yayImg.style.maxWidth = "180px";
+    yayImg.style.margin = "20px 0";
+    yayImg.style.transform = "translateX(-10px)";
 
     myH1.textContent = "🎉 YAYY 🎉";
-
     document.querySelector(".main-border").appendChild(yayImg);
     document.querySelector(".main-border").appendChild(myH1);
 
@@ -118,7 +127,8 @@
 
       sticker.src = "assets/michelinLuv-removebg-preview.png";
       sticker.style.position = "absolute";
-      sticker.style.width = "80px";
+      sticker.style.width = "100px";
+      sticker.style.zIndex = "1";
 
       const col = i % cols;
       const row = Math.floor(i / cols);
@@ -128,12 +138,12 @@
 
       // Skip center area
       if (
-        randomX > window.innerWidth * 0.25 &&
-        randomX < window.innerWidth * 0.75 &&
-        randomY > window.innerHeight * 0.2 &&
-        randomY < window.innerHeight * 0.8
+        randomX > window.innerWidth * 0.3 &&
+        randomX < window.innerWidth * 0.7 &&
+        randomY > window.innerHeight * 0.25 &&
+        randomY < window.innerHeight * 0.75
       ) {
-        continue; // Don't use i--, just skip
+        continue;
       }
 
       const randomRotation = Math.random() * 90 - 45; // Range: -45 to 45
